@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morten Haulik | XR Developer & Keynote Speaker</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Preloaded for performance) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- SEO & AI Crawling: JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Morten Haulik",
+      "jobTitle": "XR Developer, Product Owner, and Keynote Speaker",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Copenhagen",
+        "addressCountry": "DK"
+      },
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "University of Copenhagen"
+      },
+      "description": "Award-winning XR developer and keynote speaker. Founder of NXT/WebXR and Entrepreneur in Residence at the University of Copenhagen. Building the next generation of spatial computing and immersive WebXR experiences.",
+      "knowsAbout": ["Spatial Computing", "WebXR", "Virtual Reality", "Augmented Reality", "React", "Three.js"]
+    }
+    </script>
+
+    <!-- Basic Styles to handle loading state -->
+    <style>
+      body { 
+        background-color: #0044FF; /* Match the app background */
+        margin: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      #root:empty { display: none; }
+    </style>
+
+    <!-- Import Map for React and Lucide Icons -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.292.0"
+      }
+    }
+    </script>
+
+    <!-- Babel for JSX compilation in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect, useRef } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { 
+          ArrowRight, 
+          Mail, 
+          Linkedin, 
+          Twitter, 
+          Play, 
+          Monitor, 
+          Globe, 
+          Mic, 
+          Send,
+          X,
+          Camera,
+          Code,
+          Calendar,
+          MapPin,
+          ChevronRight,
+          ExternalLink,
+          Ticket,
+          Users,
+          CheckCircle2,
+          Building2,
+          Phone,
+          User,
+          Headphones,
+          Newspaper,
+          History,
+          Star
+        } from 'lucide-react';
+
+        /**
+         * DATA SOURCE
+         */
+        const PORTFOLIO_ITEMS = [
+          {
+            id: 'keynote-ida',
+            type: 'video',
+            tag: 'Keynote',
+            icon: <Mic size={14} />,
+            title: 'IDA: Driving Health Tech',
+            subtitle: 'Virtual Reality as healthcare',
+            video: 'Mortenhjemmeside.mp4',
+            description: "Som Co-founder og VR-ekspert indtog Morten scenen på IDA's Driving Health Tech konference i Aarhus for at præsentere erfaringer med MidwifeVR.",
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p className="font-bold text-blue-900">Hvordan kan VR hjælpe nybagte forældre og gavne amningsetableringen?</p>
+                <p>Se eller gense min talk fra Driving Health Tech i Aarhus, hvor jeg sammen med jordemoder Sofie Bonde Alsen præsenterede den XR platform, jeg har udviklet for at løse et massivt problem i sundhedssektoren under nedlukningen af danmark.</p>
+                
+                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-xl my-6">
+                    <p className="italic text-blue-900">"Cutting-edge konferencen Driving Health Tech er IDAs årlige sundhedsteknologiske konference, hvor vi sætter spot på nye revolutionerende metoder og sundhedsteknologiske løsninger..."</p>
+                </div>
+                
+                <p>I min keynote dykker jeg ned i, hvordan MidwifeXR konkret afhjælper sundhedssystemets udfordringer - nu og i fremtiden.</p>
+              </div>
+            ),
+            externalLink: 'https://videos.ida.dk/media/Virtual+Reality+og+Amning%3A+En+innovativ+tilgang+med+MidwifeVR++Morten+Haulik%2C+Co-founder+og+VR+ekspert+og+Sofie+Bonde+Alsen%2C+jordemoder+og+Digital+Designer/1_bb9dwkxp',
+            colSpan: 'md:col-span-1 lg:col-span-1'
+          },
+          {
+            id: 'blog-webxr',
+            type: 'blog',
+            tag: 'Article',
+            icon: <Monitor size={14} />,
+            title: 'Why WebXR is the Next Platform',
+            subtitle: 'Beyond the app store model.',
+            description: "The App Store model is broken for the Metaverse. The open web offers the only scalable, permissionless distribution channel for spatial content.",
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p>The App Store model is broken for the Metaverse. The open web offers the only scalable, permissionless distribution channel for spatial content. We need to stop thinking about 'apps' and start thinking about 'destinations'.</p>
+                <h4 className="text-blue-900 font-bold text-xl mt-6">The URL is the Portal</h4>
+                <p>Imagine walking through a virtual city. You see a gallery. You don't 'download' the gallery app. You just walk in. That is the power of the URL in a spatial context. It creates seamless traversal between experiences built by different developers.</p>
+                <p>With the advent of WebGPU, we are finally seeing graphics performance in the browser that rivals native applications. The barrier to entry is crumbling.</p>
+                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-xl my-6">
+                    <p className="font-bold text-blue-900">"The Metaverse won't be installed. It will be visited."</p>
+                </div>
+                <p>This paradigm shift requires a fundamental rethinking of how we design interfaces. Flat screens are windows; XR is a door.</p>
+              </div>
+            ),
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'podcast-apple',
+            type: 'link',
+            tag: 'Podcast',
+            icon: <Headphones size={14} />,
+            title: 'Æblebrillen i Pilestræde',
+            subtitle: 'Morten Haulik præsenterer Berlingskes lyttere til Apple Vision Pro',
+            image: 'thumb1.png',
+            description: "Jeg var inviteret i studiet hos Kaare Svejstrup som XR-ekspert for at nørde igennem om Apples indtog i Danmark.",
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p>For nylig præsenterede Apple »Vision Pro«. En brille der nedbryder grænsen mellem den virkelige virkelighed og den digitale.</p>
+                
+                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-xl my-6">
+                    <p className="font-bold text-blue-900">»Du har aldrig set noget lignende,« lover Apple-boss Tim Cook. Men som technørd og XR-udvikler er jeg lidt mere kritisk.</p>
+                </div>
+                
+                <p>Det bliver ikke en revolution på linje med den første iPhone, ENDNU! Men det er en fantastisk platform og brille til at udvikle fremtidens immersive indhold.</p>
+                <p>Jeg gæstede podcasten for at give mit take på fremtidens rummelige computere.</p>
+              </div>
+            ),
+            externalLink: 'https://goodpods.com/podcasts/pilestræde-241749/æblebrillen-31650444',
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'media-24victoria',
+            type: 'link',
+            tag: 'Press',
+            icon: <Globe size={14} />,
+            title: 'Morten Haulik udvikler XR-oplevelser på nye måder',
+            subtitle: 'NXTWebXR x Herlev Hospital',
+            image: 'thumbnail6.jpg',
+            description: "Morten Haulik er founder af NXTWebXR og samarbejder med Herlev Hospital om at integrere XR-teknologien i dagligdagen.",
+            content: (
+                <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                    <p className="font-bold text-blue-900">Morten Haulik er founder af NXTWebXR og samarbejder med Herlev Hospital om at integrere XR-teknologien i dagligdagen.</p>
+                    <p>Han har arbejdet i VR- og AR-industrien i ti år (XR samler begge). Både USA og Europa halter langt efter Asien, hvor man udnytter teknologien og frigør store kræfter på for eksempel hospitaler.</p>
+                </div>
+            ),
+            externalLink: "https://24victoria.dk/artificial-and-intelligence-deep-tech/udvikler-xr-oplevelser-morten-haulik",
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'project-nxt',
+            type: 'project',
+            tag: 'Project',
+            icon: <Code size={14} />,
+            title: 'NXT/WebXR Platform',
+            subtitle: 'Next Gen Spatial Computing',
+            image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?q=80&w=1908&auto=format&fit=crop',
+            secondaryImage: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop',
+            description: "A full-stack framework for building persistent spatial worlds. Features include real-time physics, multiplayer sync, and cross-platform VR/AR support.",
+            colSpan: 'md:col-span-2'
+          },
+          {
+            id: 'throwback-dk1',
+            type: 'image',
+            tag: 'Throwback',
+            icon: <Camera size={14} />,
+            title: 'The Beginning',
+            subtitle: 'Oculus DK1 Days (2013)',
+            image: 'https://images.unsplash.com/photo-1592478411213-61535f944806?q=80&w=2070&auto=format&fit=crop',
+            description: "Found this relic in the closet. The screen door effect was real, but the magic was undeniable. We've come a long way since 720p.",
+            markerNote: "Found this in the closet! Can't believe we used to wear these bricks lol #WebVR",
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'press-midwife',
+            type: 'link',
+            tag: 'Press',
+            icon: <Newspaper size={14} />,
+            title: 'The Birth of MidwifeVR',
+            subtitle: 'CBS Wire Interview',
+            image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop',
+            description: '"I met a recently graduated midwife at a party who was on the brink of tears... That’s how I decided to build MidwifeVR."',
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p className="font-bold text-blue-900">How my XR expertise sparked a new startup</p>
+                <p>From my interview with CBS Wire on how I founded MidwifeVR:</p>
+                <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-xl my-6 italic">
+                    <p>“I’ve been working with virtual reality for the past six years and have done some different VR startups. I met a recently graduated midwife at a party who was on the brink of tears because she felt she couldn’t give the right guidance to new parents because of the lack of midwives."</p>
+                    <br/>
+                    <p>"Now, having worked with VR before, I knew the possibilities of simulation training and similar aspects, and I thought it could be a cool opportunity to take all of this training, put it inside a VR headset and make it available for parents 24/7."</p>
+                    <br/>
+                    <p>"So that’s what I built! It’s an educational platform where parents can rent a VR headset for the first three weeks after their baby is born."</p>
+                </div>
+              </div>
+            ),
+            externalLink: 'https://cbswire.dk/healthy-glove-gaming-misoballs-and-a-virtual-midwife/',
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'podcast-thepreneur',
+            type: 'link',
+            tag: 'Podcast',
+            icon: <Headphones size={14} />,
+            title: 'Thepreneur Podcast #11',
+            subtitle: 'All-round strike regarding VR and virtual midwives',
+            image: 'thumb1.png',
+            description: "Som gæst på Thepreneur Podcast deler jeg mine erfaringer som CEO og XR-udvikler, og hvordan jeg tog MidwifeXR fra idé til skalerbart produkt.",
+            externalLink: 'https://www.youtube.com/watch?v=9PpGts9B240',
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'goggle-scotty',
+            type: 'link',
+            tag: 'Flashback',
+            icon: <History size={14} />,
+            title: 'Goggle me up Scotty!',
+            subtitle: 'The Copenhagen Post (2017)',
+            image: 'https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=2070&auto=format&fit=crop',
+            description: 'I 2017 fangede The Copenhagen Post mig til en snak om min tekniske vision for Virtual Reality som "the final frontier".',
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p className="font-bold text-blue-900">Et tidligt, men vigtigt interview for mig personligt.</p>
+                <p>The Copenhagen Post satte fokus på det massive potentiale inden for Virtual Reality i den københavnske startup-scene, og jeg var med til at spå om den teknologiske revolution, der ventede forude. Et sjovt tilbageblik på de visioner, jeg sidenhen har brugt årevis på at realisere i praksis.</p>
+              </div>
+            ),
+            externalLink: 'https://cphpost.dk/2017-07-02/news/goggle-me-up-scotty-this-is-the-final-frontier/',
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'voa-2016',
+            type: 'link',
+            tag: 'Flashback',
+            icon: <History size={14} />,
+            title: 'Voice of America besøger mine virtuelle verdener (2016)',
+            subtitle: 'Voice of America',
+            image: 'https://images.unsplash.com/photo-1592478411213-61535f944806?q=80&w=2070&auto=format&fit=crop',
+            description: "Allerede i 2016 lagde det internationale medie Voice of America vejen forbi for at opleve, hvordan jeg byggede virtuelle rum.",
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p>Et kig helt tilbage til 2016, hvor XR-branchen var i sin absolutte spæde start.</p>
+                <p>Voice of America dækkede det gryende teknologilandskab og lagde vejen forbi for at prøve kræfter med de virtuelle oplevelser, jeg arbejdede med. Det er en fantastisk tidslomme, der understreger min dybe anciennitet og mangeårige pionerrolle inden for spatial computing.</p>
+              </div>
+            ),
+            externalLink: 'https://learningenglish.voanews.com/amp/a-visit-to-the-virtual-world/3618990.html',
+            colSpan: 'md:col-span-1'
+          },
+          {
+            id: 'michelin-vr',
+            type: 'link',
+            tag: 'Highlight',
+            icon: <Star size={14} />,
+            title: 'Michelin Dining i VR',
+            subtitle: 'The ultimate XR dream for foodies',
+            image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop',
+            description: "Som Lead Developer hos start-uppen Evrest skabte jeg en fuldt immersiv oplevelse for nogle af Danmarks bedste restauranter for at tage brugerne direkte ind i stjernekøkkenerne.",
+            content: (
+              <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+                <p className="font-bold text-blue-900">Explore Michelin restaurants in VR.</p>
+                <p>Sammen med nogle af de absolut bedste danske restauranter stod jeg for udviklingen af "the ultimate dream for foodies": en immersiv udforskning af high-end gastronomi.</p>
+                <p>Jeg byggede en XR-platform og skabte indhold, der gav brugere mulighed for at træde direkte ind i køkkenet og mærke det intense og fascinerende arbejde bag Michelin-stjernerne.</p>
+              </div>
+            ),
+            externalLink: 'https://www.google.com/search?q=https://www.linkedin.com/posts/haulik_virtualreality-virtualtoday-realitytomorrow-activity-6640622693022609408--R4o',
+            colSpan: 'md:col-span-1'
+          }
+        ];
+
+        const BIO_ITEM = {
+          id: 'about-morten',
+          type: 'blog',
+          tag: 'About',
+          icon: <User size={14} />,
+          title: 'About Morten',
+          subtitle: 'XR Developer, Product Owner & Keynote Speaker',
+          image: 'pjp.jpg',
+          description: "Morten Haulik is an award-winning XR developer, product owner, and keynote speaker based in Copenhagen.",
+          content: (
+            <div className="space-y-6 text-gray-800 leading-relaxed text-lg">
+              <p>Morten Haulik is an award-winning XR developer, product owner, and keynote speaker based in Copenhagen. Over a decade ago, at age 22, Morten left his Information Science studies at the University of Copenhagen to join Khora Virtual Reality—the first Nordic XR studio—full-time. Since then, he has facilitated over 100 XR workshops, shipped multiple high-impact spatial computing products, and delivered keynote speeches to audiences of up to 2,000+ people.</p>
+              <p>Over the past five years, Morten has crafted immersive WebXR and VR/AR experiences for some of the world's leading global brands and cultural institutions. His award-winning work is used daily across the globe, transforming workflows in hospitals, enhancing museum exhibits, and entertaining VR users at home.</p>
+              <p>Since 2022, Morten has served as an Entrepreneur in Residence at the University of Copenhagen, helping shape the innovative KU Lighthouse initiative to support students and faculty in launching new tech startups.</p>
+              <p>In 2025, during a year abroad in Milan, Italy, Morten launched NXT/WebXR. It has rapidly grown into one of the world's largest XR platforms, serving as the definitive gateway for daily users worldwide to explore the spatial internet.</p>
+            </div>
+          )
+        };
+
+        const useTilt = (active = true) => {
+          const ref = useRef(null);
+          const [transform, setTransform] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+          const [shadow, setShadow] = useState('0px 10px 30px -5px rgba(0, 0, 0, 0.3)');
+
+          const handleMouseMove = (e) => {
+            if (!ref.current || !active) return;
+            const { left, top, width, height } = ref.current.getBoundingClientRect();
+            const x = (e.clientX - left) / width;
+            const y = (e.clientY - top) / height;
+            const tiltX = (0.5 - y) * 15;
+            const tiltY = (x - 0.5) * 15;
+
+            setTransform(`perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`);
+            setShadow(`${-tiltY}px ${tiltX + 10}px 30px -5px rgba(0, 0, 0, 0.5)`);
+          };
+
+          const handleMouseLeave = () => {
+            setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+            setShadow('0px 10px 30px -5px rgba(0, 0, 0, 0.3)');
+          };
+
+          return { ref, transform, shadow, handleMouseMove, handleMouseLeave };
+        };
+
+        const useMagnetic = (strength = 30) => {
+          const ref = useRef(null);
+          const [position, setPosition] = useState({ x: 0, y: 0 });
+
+          const handleMouseMove = (e) => {
+            if (!ref.current) return;
+            const { left, top, width, height } = ref.current.getBoundingClientRect();
+            const centerX = left + width / 2;
+            const centerY = top + height / 2;
+            const deltaX = e.clientX - centerX;
+            const deltaY = e.clientY - centerY;
+            setPosition({ x: deltaX / strength, y: deltaY / strength });
+          };
+
+          const handleMouseLeave = () => {
+            setPosition({ x: 0, y: 0 });
+          };
+
+          return { ref, position, handleMouseMove, handleMouseLeave };
+        };
+
+        const Background = () => {
+          return (
+            <div className="fixed inset-0 -z-10 overflow-hidden bg-[#0044FF]">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0033FF] via-[#0022AA] to-[#001188]" />
+              <div className="absolute top-0 right-0 w-[80vw] h-[80vw] bg-[#3377FF] opacity-30 rounded-full blur-[120px] mix-blend-screen translate-x-1/2 -translate-y-1/2" />
+              <div className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-[#6600FF] opacity-20 rounded-full blur-[100px] mix-blend-screen -translate-x-1/4 translate-y-1/4" />
+              <div 
+                className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+                }}
+              />
+            </div>
+          );
+        };
+
+        const Header = ({ onBookKeynote, onOpenBio }) => {
+          const { ref, position, handleMouseMove, handleMouseLeave } = useMagnetic(5);
+
+          return (
+            <header className="w-full max-w-7xl mx-auto p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 z-10 relative">
+              <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                <div 
+                  className="relative group cursor-pointer"
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={handleMouseLeave}
+                  ref={ref}
+                  style={{ transform: `translate(${position.x}px, ${position.y}px)`, transition: 'transform 0.2s ease-out' }}
+                >
+                  <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-[4px] border-white shadow-2xl relative z-10">
+                    <img 
+                      src="pjp.jpg" 
+                      alt="Morten Haulik" 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                          e.target.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop";
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-md">
+                    Morten Haulik <span className="text-[#88CCFF] font-light">| XR</span>
+                  </h1>
+                  <p className="text-xl text-blue-100 font-medium tracking-wide">
+                      Founder, WebXR Developer & Keynote Speaker
+                  </p>
+                  
+                  <div className="flex items-center justify-center md:justify-start gap-3 pt-2">
+                    <span className="flex items-center gap-2 px-4 py-1.5 bg-white/10 border-2 border-white/50 rounded-full backdrop-blur-sm shadow-sm">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-300 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+                      </span>
+                      <span className="text-xs font-bold uppercase tracking-wider text-white">Copenhagen 🇩🇰/🇪🇺</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 w-full md:w-auto min-w-[240px]">
+                <a 
+                  href="https://www.nxtwebxr.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full px-6 py-3 bg-blue-900/40 backdrop-blur-md border-2 border-white/50 text-white rounded-full font-bold hover:bg-blue-900/60 hover:scale-105 transition-all flex items-center justify-center gap-2 text-center"
+                >
+                    Explore NXT/WebXR
+                </a>
+
+                  <button 
+                    onClick={onBookKeynote}
+                    className="w-full px-6 py-3 bg-gradient-to-r from-[#6600FF] to-[#0044FF] border-2 border-white/30 text-white rounded-full font-bold hover:brightness-110 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-lg"
+                  >
+                    <Ticket size={16} /> Book Keynote
+                </button>
+
+                <button 
+                    onClick={onOpenBio}
+                    className="w-full px-6 py-3 bg-white/10 backdrop-blur-md border-2 border-white/40 text-white rounded-full font-bold hover:bg-white/20 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <User size={16} /> About Morten
+                </button>
+              </div>
+            </header>
+          );
+        };
+
+        const TiltCard = ({ children, className, onClick, style }) => {
+          const { ref, transform, shadow, handleMouseMove, handleMouseLeave } = useTilt();
+          return (
+            <div 
+              ref={ref}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              onClick={onClick}
+              className={`
+                relative overflow-hidden rounded-[2.5rem] 
+                border-[4px] border-white/90
+                bg-white/10 backdrop-blur-xl transition-all duration-300 ease-out
+                ${className}
+              `}
+              style={{
+                transform,
+                boxShadow: "0 20px 40px -10px rgba(0,0,0,0.4)",
+                transformStyle: 'preserve-3d',
+                ...style
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-20" />
+              {children}
+            </div>
+          );
+        };
+
+        const ContactCard = () => {
+          const [name, setName] = useState('');
+          const [email, setEmail] = useState('');
+          const [message, setMessage] = useState('');
+
+          const handleSubmit = (e) => {
+            e.preventDefault();
+            const subject = encodeURIComponent(`Let's Talk: ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+            window.location.href = `mailto:Morten@nxtwebxr.com?subject=${subject}&body=${body}`;
+          };
+
+          return (
+            <div className={`relative overflow-hidden rounded-[2.5rem] border-[4px] border-white/90 bg-white/20 backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group`}>
+              
+              <div className="relative z-10 p-8 h-full flex flex-col">
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-white rounded-xl text-blue-600 shadow-md">
+                        <Mail size={22} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white">Let's Talk</h3>
+                  </div>
+                  <div className="flex gap-2">
+                      <a href="https://x.com/Haulik" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/20 rounded-full hover:bg-white hover:text-blue-600 transition-colors"><Twitter size={18} /></a>
+                      <a href="https://www.linkedin.com/in/haulik" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/20 rounded-full hover:bg-white hover:text-blue-600 transition-colors"><Linkedin size={18} /></a>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-4">
+                    <div className="space-y-4">
+                      <input 
+                        required 
+                        type="text" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Name" 
+                        className="w-full bg-blue-900/30 border-2 border-white/30 rounded-2xl p-4 text-white placeholder-blue-200/70 outline-none focus:border-white focus:bg-blue-900/50 transition-all font-medium" 
+                      />
+                      <input 
+                        required 
+                        type="email" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email Address" 
+                        className="w-full bg-blue-900/30 border-2 border-white/30 rounded-2xl p-4 text-white placeholder-blue-200/70 outline-none focus:border-white focus:bg-blue-900/50 transition-all font-medium" 
+                      />
+                      <textarea 
+                        required 
+                        rows={3} 
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Tell me about your project..." 
+                        className="w-full bg-blue-900/30 border-2 border-white/30 rounded-2xl p-4 text-white placeholder-blue-200/70 outline-none focus:border-white focus:bg-blue-900/50 transition-all resize-none font-medium" 
+                      />
+                    </div>
+                    <button type="submit" className="mt-auto w-full bg-white text-blue-700 font-extrabold py-4 rounded-2xl hover:bg-blue-50 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 shadow-lg">
+                      Open Email App
+                      <ExternalLink size={18} />
+                    </button>
+                    <p className="text-xs text-blue-200 text-center mt-2">This will draft the message in your default email client.</p>
+                </form>
+              </div>
+            </div>
+          );
+        };
+
+        const KeynoteModal = ({ onClose }) => {
+          const [audience, setAudience] = useState(500);
+          const [phone, setPhone] = useState('');
+          const [date1, setDate1] = useState('');
+          const [date2, setDate2] = useState('');
+          const [date3, setDate3] = useState('');
+
+          const handleSubmit = (e) => {
+            e.preventDefault();
+            const datesArr = [date1, date2, date3].filter(d => d);
+            const datesString = datesArr.length > 0 ? datesArr.join(', ') : 'TBD';
+            
+            const subject = encodeURIComponent(`Keynote Booking Request - ${audience} People`);
+            const body = encodeURIComponent(`Book Morten Haulik Keynote - Audience ${audience} - ${phone} - Dates: ${datesString}`);
+            
+            window.location.href = `mailto:Morten@nxtwebxr.com?subject=${subject}&body=${body}`;
+          };
+
+          return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 animate-fade-in-fast">
+              <div className="absolute inset-0 bg-blue-950/80 backdrop-blur-xl" onClick={onClose} />
+              
+              <div className="relative w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-[6px] border-white animate-scale-up flex flex-col max-h-[90vh] overflow-y-auto">
+                <button 
+                  onClick={onClose}
+                  className="absolute top-6 right-6 z-50 p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+
+                <div className="p-8 md:p-12">
+                  <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-blue-100 text-blue-700 rounded-lg">
+                        <Ticket size={20} />
+                      </div>
+                      <span className="text-sm font-bold text-blue-600 uppercase tracking-widest">Official Booking</span>
+                    </div>
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-blue-900 tracking-tight">Keynote Inquiry</h2>
+                    <p className="text-slate-500 mt-2 text-lg">Available for conferences, corporate summits, and private workshops.</p>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Audience Slider */}
+                    <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                      <div className="flex justify-between items-end">
+                        <label className="text-sm font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                          <Users size={16} /> Audience Size
+                        </label>
+                        <span className="text-2xl font-bold text-blue-600 tabular-nums">
+                          {audience === 5000 ? '5,000+' : audience.toLocaleString()}
+                          <span className="text-sm font-medium text-slate-400 ml-1">people</span>
+                        </span>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="5" 
+                        max="5000" 
+                        step="5"
+                        value={audience} 
+                        onChange={(e) => setAudience(Number(e.target.value))}
+                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 hover:accent-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                      />
+                      <div className="flex justify-between text-xs font-semibold text-slate-400 px-1">
+                        <span>5</span>
+                        <span>1K</span>
+                        <span>2.5K</span>
+                        <span>5K+</span>
+                      </div>
+                      
+                      {/* Pick Dates Section inserted below Audience */}
+                      <div className="pt-4 border-t border-slate-200 mt-4 space-y-3">
+                         <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                            <Calendar size={16} /> Pick Dates
+                            <span className="text-xs font-normal text-slate-500">(You can select up to three dates)</span>
+                         </label>
+                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <input 
+                              type="date" 
+                              value={date1}
+                              onChange={e => setDate1(e.target.value)}
+                              className="w-full bg-white border-2 border-slate-200 rounded-xl py-2 px-3 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium"
+                            />
+                            <input 
+                              type="date" 
+                              value={date2}
+                              onChange={e => setDate2(e.target.value)}
+                              className="w-full bg-white border-2 border-slate-200 rounded-xl py-2 px-3 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium"
+                            />
+                            <input 
+                              type="date" 
+                              value={date3}
+                              onChange={e => setDate3(e.target.value)}
+                              className="w-full bg-white border-2 border-slate-200 rounded-xl py-2 px-3 text-sm text-slate-800 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium"
+                            />
+                         </div>
+                      </div>
+                    </div>
+
+                    {/* Contact Fields */}
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-slate-700 ml-1">Phone Number</label>
+                      <div className="relative">
+                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                        <input 
+                          required 
+                          type="tel" 
+                          value={phone}
+                          onChange={e => setPhone(e.target.value)}
+                          placeholder="+45 12 34 56 78" 
+                          className="w-full bg-white border-2 border-slate-200 rounded-xl py-3 pl-12 pr-4 text-slate-800 placeholder-slate-300 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all font-medium" 
+                        />
+                      </div>
+                    </div>
+
+                    {/* Submit Action */}
+                    <div className="pt-4 flex flex-col items-center border-t border-slate-100">
+                      <button 
+                        type="submit" 
+                        className="w-full px-8 py-4 bg-gradient-to-r from-blue-700 to-blue-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex justify-center items-center gap-2"
+                      >
+                        Open Email to Request
+                        <ExternalLink size={18} />
+                      </button>
+                      <p className="text-xs text-slate-500 mt-3 text-center">This will open your default email app with the details filled out.</p>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        const ExpandedCard = ({ item, onClose }) => {
+          if (!item) return null;
+          const isPolaroid = item.type === 'image';
+
+          return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 animate-fade-in-fast">
+              <div className="absolute inset-0 bg-blue-950/80 backdrop-blur-xl" onClick={onClose} />
+              
+              {isPolaroid ? (
+                <div className="relative animate-wiggle-float origin-center">
+                    <button 
+                      onClick={onClose}
+                      className="absolute -top-12 right-0 z-50 p-3 bg-white hover:bg-gray-100 rounded-full text-blue-900 shadow-lg transition-colors"
+                    >
+                      <X size={24} />
+                    </button>
+                    <div className="bg-white p-4 pb-16 shadow-2xl transform rotate-1 max-w-xl w-full border-[8px] border-white rounded-lg">
+                        <div className="aspect-[4/3] w-full bg-gray-100 overflow-hidden mb-6 rounded-sm border border-gray-100">
+                            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-center transform -rotate-1 px-4">
+                            <p className="font-handwriting text-3xl text-blue-900 leading-relaxed tracking-wide">
+                                {item.markerNote || item.description}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+              ) : (
+              <div className="relative w-full max-w-5xl max-h-[90vh] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row animate-scale-up border-[6px] border-white">
+                <button 
+                  onClick={onClose}
+                  className="absolute top-4 right-4 z-50 p-2 bg-black/10 hover:bg-black/20 rounded-full text-black backdrop-blur-md transition-colors"
+                >
+                  <X size={24} />
+                </button>
+
+                <div className={`relative ${item.type === 'project' ? 'md:w-1/2' : 'md:w-5/12'} bg-slate-100 h-64 md:h-auto overflow-hidden`}>
+                   {item.type === 'video' ? (
+                     <div className="w-full h-full flex items-center justify-center relative group cursor-pointer bg-black">
+                        {item.video ? (
+                            <video src={item.video} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                        ) : (
+                            <img src={item.image} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+                        )}
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform z-10">
+                          <Play className="fill-blue-600 text-blue-600 ml-1 w-8 h-8" />
+                        </div>
+                     </div>
+                   ) : (
+                     <img 
+                        src={item.image || item.secondaryImage} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover" 
+                        onError={(e) => {
+                            if (item.image && item.image.includes('thumbnail6.jpg')) {
+                                e.target.src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop";
+                            } else if (item.image && item.image.includes('pjp.jpg')) {
+                                e.target.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=2080&auto=format&fit=crop";
+                            }
+                        }}
+                    />
+                   )}
+                   <div className="absolute top-6 left-6">
+                      <span className="flex items-center gap-2 px-4 py-1.5 bg-white rounded-full text-xs font-bold text-blue-900 uppercase tracking-wider shadow-lg">
+                        {item.icon} {item.tag}
+                      </span>
+                   </div>
+                </div>
+
+                <div className={`flex-1 p-8 md:p-12 flex flex-col overflow-y-auto ${item.type === 'project' ? 'md:w-1/2' : 'md:w-7/12'} scrollbar-hide`}>
+                  <div className="mb-8">
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-blue-900 mb-3 leading-tight tracking-tight">{item.title}</h2>
+                    <p className="text-xl text-blue-600 font-semibold">{item.subtitle}</p>
+                  </div>
+                  
+                  <div className="prose prose-lg text-slate-600 leading-relaxed mb-8">
+                      {item.content || <p>{item.description}</p>}
+                  </div>
+
+                  <div className="mt-auto pt-8 border-t border-gray-100 flex justify-between items-center">
+                      <div className="flex gap-4 text-sm font-semibold text-gray-400">
+                        <span>Feb 2026</span>
+                        <span>•</span>
+                        <span>5 min read</span>
+                      </div>
+                      {item.externalLink && (
+                        <a href={item.externalLink} target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-lg">
+                          View Source <ExternalLink size={16} />
+                        </a>
+                      )}
+                  </div>
+                </div>
+              </div>
+              )}
+            </div>
+          );
+        };
+
+        const ContentCard = ({ item, onClick }) => {
+          return (
+            <TiltCard 
+              onClick={() => onClick(item)} 
+              className={`${item.colSpan} cursor-pointer group min-h-[320px] flex flex-col`}
+            >
+              {(item.image || item.video) && (
+                <div className="absolute inset-0 z-0">
+                  {item.video ? (
+                    <video 
+                        src={item.video} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      onError={(e) => {
+                          if (item.image && item.image.includes('thumbnail6.jpg')) {
+                              e.target.src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop";
+                          }
+                      }}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-transparent opacity-80" />
+                </div>
+              )}
+              
+              {!(item.image || item.video) && (
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5" />
+              )}
+
+              <div className="absolute top-5 left-5 z-20">
+                <div className={`
+                  flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/30 text-xs font-bold uppercase tracking-wider shadow-lg backdrop-blur-md
+                  ${item.isLive ? 'bg-red-500 text-white animate-pulse border-red-400' : 'bg-white/20 text-white'}
+                `}>
+                  {item.isLive && <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />}
+                  {item.icon}
+                  {item.tag}
+                </div>
+              </div>
+
+              <div className="relative z-10 p-7 mt-auto">
+                <h3 className={`font-bold text-white mb-2 leading-[1.1] drop-shadow-md ${item.colSpan.includes('col-span-2') ? 'text-4xl' : 'text-2xl'}`}>
+                  {item.title}
+                </h3>
+                <p className="text-sm text-blue-100/90 line-clamp-2 mb-4 group-hover:text-white transition-colors font-medium">
+                  {item.description}
+                </p>
+                
+                <div className="flex items-center gap-2 text-xs font-black text-white uppercase tracking-widest opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                  Read Story <ChevronRight size={14} className="bg-white text-blue-600 rounded-full p-0.5" />
+                </div>
+              </div>
+            </TiltCard>
+          );
+        };
+
+        const App = () => {
+          const [selectedItem, setSelectedItem] = useState(null);
+          const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+          useEffect(() => {
+            if (selectedItem || isBookingOpen) {
+              document.body.style.overflow = 'hidden';
+            } else {
+              document.body.style.overflow = 'unset';
+            }
+          }, [selectedItem, isBookingOpen]);
+
+          return (
+            <div className="relative min-h-screen text-slate-200 font-sans selection:bg-white selection:text-blue-600 pb-20">
+              <style>{`
+                body { font-family: 'Plus Jakarta Sans', sans-serif; }
+                .font-handwriting { font-family: 'Permanent Marker', cursive; }
+                
+                .animate-float { animation: float 10s ease-in-out infinite; }
+                @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+                
+                .animate-fade-in-fast { animation: fadeIn 0.3s ease-out forwards; }
+                .animate-scale-up { animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+                
+                .animate-wiggle-float { animation: wiggleFloat 6s ease-in-out infinite; }
+                
+                @keyframes wiggleFloat {
+                    0%, 100% { transform: rotate(1deg) translateY(0); }
+                    25% { transform: rotate(-1deg) translateY(-10px); }
+                    50% { transform: rotate(2deg) translateY(0); }
+                    75% { transform: rotate(-2deg) translateY(-5px); }
+                }
+                
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                @keyframes scaleUp { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+                .masonry-grid {
+                  display: grid;
+                  grid-template-columns: repeat(1, 1fr);
+                  gap: 2rem;
+                }
+                @media (min-width: 768px) {
+                  .masonry-grid { grid-template-columns: repeat(2, 1fr); }
+                }
+                @media (min-width: 1024px) {
+                  .masonry-grid { grid-template-columns: repeat(3, 1fr); }
+                }
+              `}</style>
+
+              <Background />
+              
+              <Header 
+                onBookKeynote={() => setIsBookingOpen(true)} 
+                onOpenBio={() => setSelectedItem(BIO_ITEM)} 
+              />
+
+              <main className="max-w-7xl mx-auto px-6 md:px-10 pb-24">
+                
+                <div className="sr-only">
+                  Morten Haulik is an award-winning XR developer, product owner, and keynote speaker based in Copenhagen. Over a decade ago, at age 22, Morten left his Information Science studies at the University of Copenhagen to join Khora Virtual Reality—the first Nordic XR studio—full-time. Since then, he has facilitated over 100 XR workshops, shipped multiple high-impact spatial computing products, and delivered keynote speeches to audiences of up to 2,000+ people.
+                  Over the past five years, Morten has crafted immersive WebXR and VR/AR experiences for some of the world's leading global brands and cultural institutions. His award-winning work is used daily across the globe, transforming workflows in hospitals, enhancing museum exhibits, and entertaining VR users at home.
+                  Since 2022, Morten has served as an Entrepreneur in Residence at the University of Copenhagen, helping shape the innovative KU Lighthouse initiative to support students and faculty in launching new tech startups.
+                  In 2025, during a year abroad in Milan, Italy, Morten launched NXT/WebXR. It has rapidly grown into one of the world's largest XR platforms, serving as the definitive gateway for daily users worldwide to explore the spatial internet.
+                </div>
+
+                <div className="masonry-grid">
+                  {PORTFOLIO_ITEMS.map((item, index) => (
+                    <div key={item.id} className={`${item.colSpan} animate-fade-in-fast`} style={{ animationDelay: `${index * 0.1}s` }}>
+                      <ContentCard item={item} onClick={setSelectedItem} />
+                    </div>
+                  ))}
+                  
+                  <div className="md:col-span-1 lg:col-span-1 animate-fade-in-fast" style={{ animationDelay: '0.8s' }}>
+                      <ContactCard />
+                  </div>
+                </div>
+              </main>
+
+              <footer className="w-full text-center py-10 text-white/50 text-sm font-semibold tracking-wide">
+                <div className="flex items-center justify-center gap-4 mb-4 opacity-70 hover:opacity-100 transition-opacity">
+                      <Globe size={16} />
+                      <span>Designed in Copenhagen</span>
+                </div>
+                <p>© 2026 Morten Haulik. All rights reserved.</p>
+              </footer>
+
+              {selectedItem && (
+                <ExpandedCard item={selectedItem} onClose={() => setSelectedItem(null)} />
+              )}
+              
+              {isBookingOpen && (
+                <KeynoteModal onClose={() => setIsBookingOpen(false)} />
+              )}
+            </div>
+          );
+        };
+
+        const rootElement = document.getElementById('root');
+        const root = createRoot(rootElement);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
